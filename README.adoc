@@ -1,0 +1,6 @@
+= PAC Info Tool
+
+Simple tool that uses a PAC[1] file to determine what the proper proxy is for
+a given URL.
+
+[1] https://en.wikipedia.org/wiki/Proxy_auto-config
