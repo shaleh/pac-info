@@ -1,0 +1,50 @@
+#!/usr/bin/env python
+
+from __future__ import print_function
+import argparse
+
+import pacparser
+import requests
+
+arg_parser = argparse.ArgumentParser(description="PAC info")
+group = arg_parser.add_mutually_exclusive_group()
+group.add_argument("--pac-url", help="URL to retrieve PAC file from")
+group.add_argument("--pac-file", help="Path to a PAC file")
+arg_parser.add_argument("url")
+
+args = arg_parser.parse_args()
+
+url = args.url
+
+if url.find("http://") != 0 and url.find("https://") != 0:
+    url = "http://" + url
+
+pac_data = None
+
+if args.pac_file:
+    with open(args.pac_file) as fp:
+        pac_data = fp.read()
+else:
+    response = requests.get(args.pac_url)
+    if not response:
+        raise SystemExit("Failed to retrieve PAC: {} {}".format(response.status_code, response.reason))
+    pac_data = response.text
+
+pacparser.init()
+pacparser.parse_pac_string(pac_data)
+proxy_from_pac = pacparser.find_proxy(url)
+
+# PROXY proxy.example.com:8080; PROXY proxy2.example.com:8080
+first, _ = proxy_from_pac.split(';', 1)
+_, proxy = first.split(' ')
+
+proxy_text = "proxy"
+no_proxy = "localhost,127.0.0.1,.local"
+
+for i in ('http', 'https'):
+    print("{}_{}=http://{}".format(i, proxy_text, proxy))
+    print("{}_{}=http://{}".format(i.upper(), proxy_text.upper(), proxy))
+
+no_proxy_text = "no_proxy"
+print("{}={}".format(no_proxy_text, no_proxy))
+print("{}={}".format(no_proxy_text.upper(), no_proxy))
