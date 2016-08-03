@@ -2,3 +2,4 @@
 
 Simple tool that uses a PAC footnote:[https://en.wikipedia.org/wiki/Proxy_auto-config] file to determine what the proper proxy is for a given URL.
 
+gen-proxy-env will output the needed proxy settings in a format ready for /etc/environment.
