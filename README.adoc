@@ -2,8 +2,17 @@
 
 Simple tools that use a PAC footnote:[https://en.wikipedia.org/wiki/Proxy_auto-config] file to determine what the proper proxy is for a given URL.
 
-To begin run `pip install -r requirements.txt`. This will ensure the needed libraries are installed.
-Then you can copy the scripts to some place in your `PATH` or just run them from the checkout. Don't forget to ensure they are `chmod +x`.
+To install:
+
+ 1. git clone https://github.com/pacparser/pacparser
+ 1. cd pacparser
+ 1. make -C src; sudo make -C src install
+ 1. make -C src pymod; sudo make -C src install-pymod
+ 1. cd pac-info
+ 1. pip install -r requirements.txt
+
+This will ensure the needed libraries are installed. Then you can copy the scripts to some place
+in your `PATH` or just run them from the checkout. Don't forget to ensure they are `chmod +x`.
 
 pac-info will retrieve the PAC file and tell you the PROXY used for a given domain. This is useful for setting up NO_PROXY for example.
 You can use a tool like wget to retrieve the PAC file from the autocache site and use `--pac-file` instead of downloading the file each time.
