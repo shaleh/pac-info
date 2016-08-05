@@ -1,8 +1,19 @@
 = PAC Info Tool
 
-Simple tool that uses a PAC footnote:[https://en.wikipedia.org/wiki/Proxy_auto-config] file to determine what the proper proxy is for a given URL.
+Simple tools that use a PAC footnote:[https://en.wikipedia.org/wiki/Proxy_auto-config] file to determine what the proper proxy is for a given URL.
 
-gen-proxy-env will output the needed proxy settings in a format ready for /etc/environment.
+To begin run `pip install -r requirements.txt`. This will ensure the needed libraries are installed.
+Then you can copy the scripts to some place in your `PATH` or just run them from the checkout. Don't forget to ensure they are `chmod +x`.
+
+pac-info will retrieve the PAC file and tell you the PROXY used for a given domain. This is useful for setting up NO_PROXY for example.
+You can use a tool like wget to retrieve the PAC file from the autocache site and use `--pac-file` instead of downloading the file each time.
+
+```
+$ pac-info --pac-url http://PROXY_AUTOCACHE google.com
+$ pac-info --pac-url http://PROXY_AUTOCACHE some.internalsite.example.com  # should be DIRECT and belongs in NO_PROXY
+```
+
+gen-proxy-env will output the needed proxy settings in a format ready for /etc/environment. It too can use `--pac-file`.
 
 Example how to use it:
 
